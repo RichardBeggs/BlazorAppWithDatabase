@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  blazorappwithdatabase:
+    image: ${DOCKER_REGISTRY-}blazorappwithdatabase
+    build:
+      context: .
+      dockerfile: BlazorAppWithDatabase/Dockerfile
+    environment:
+        conn: "Data Source=db,1433;Initial Catalog=Geo;Persist Security Info=True;User ID=sa;Password=Oranges1; TrustServerCertificate=True;"
+    depends_on: 
+        - db
+  
+  db:
+    container_name: sql_server2022
+    image: mcr.microsoft.com/mssql/server
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "Oranges1"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Developer"
