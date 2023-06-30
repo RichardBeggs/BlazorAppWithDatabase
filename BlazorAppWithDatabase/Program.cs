@@ -10,7 +10,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddTransient<IPubService, PubService>();
-builder.Services.AddDbContext<PubContext>(options => options.UseSqlServer(builder.Configuration["conn"]));
+builder.Services.AddDbContext<PubContext>(options => options.UseSqlServer(builder.Configuration["conn"]),ServiceLifetime.Transient);
 
 var app = builder.Build();
 
