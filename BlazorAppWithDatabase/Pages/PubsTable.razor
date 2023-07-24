@@ -21,7 +21,6 @@ else
             <th>Id</th>
             <th>Name</th>
             <th>Address Line 1</th>
-            <th>Address Line 2</th>
             <th>City</th>
         </tr>
         </thead>
@@ -31,7 +30,7 @@ else
             <tr>
                 <td>@pub.Id</td>
                 <td>@pub.Name</td>
-                <td>@pub.AddressLine2</td>
+                <td>@pub.AddressLine1</td>
                 <td>@pub.City</td>
             </tr>
         }
@@ -44,6 +43,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+
         pubs = await PubService.GetPubsAsync();
     }
 }

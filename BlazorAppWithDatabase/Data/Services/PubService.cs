@@ -15,14 +15,12 @@ namespace BlazorAppWithDatabase.Data.Services
         {
             var pubs = _context.Pubs.ToListAsync();
             return pubs;
-            /*
-            return Task.FromResult(Enumerable.Range(1, 5).Select(index => new Pub
-            {
-                Id = index,
-                Name = $"Pub {index}",
-                AddressLine1 = $"Address Line 1 {index}",
-                AddressLine2 = $"Address Line 2 {index}",
-            }).ToList());*/
+        }
+
+        public Task<List<Pub>> GetPubsAsync(string cityFilter)
+        {
+            var pubs = _context.Pubs.Where(x=>x.City==cityFilter).ToListAsync();
+            return pubs;
         }
     }
 }
