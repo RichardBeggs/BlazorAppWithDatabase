@@ -11,6 +11,28 @@ namespace BlazorAppWithDatabase.Data.Services
         {
             _context = context;
         }
+
+        public void DeletePub(Pub pub)
+        {
+            _context.Pubs.Remove(pub);
+            _context.SaveChanges();
+        }
+
+        public void UpdatePub(Pub pub)
+        {
+
+            if (pub.Id == null)
+            {
+                _context.Pubs.Add(pub);
+            }
+            else
+            {
+                _context.Pubs.Update(pub);
+            }
+
+            _context.SaveChanges();
+        }
+
         public Task<List<Pub>> GetPubsAsync()
         {
             var pubs = _context.Pubs.ToListAsync();

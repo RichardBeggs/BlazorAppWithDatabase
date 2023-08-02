@@ -9,12 +9,13 @@
 
 <p>This component demonstrates fetching data from a service.</p>
 
-@if (pubs == null)
+@if (_pubs == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
+    
     <table class="table">
         <thead>
         <tr>
@@ -22,16 +23,26 @@ else
             <th>Name</th>
             <th>Address Line 1</th>
             <th>City</th>
+                <th><input class="btn-primary" type="button" @onclick="@(Add)" value="Add" /></th>
         </tr>
         </thead>
         <tbody>
-        @foreach (var pub in pubs)
+        @foreach (var pub in _pubs)
         {
-            <tr>
+            /*<tr>
                 <td>@pub.Id</td>
                 <td>@pub.Name</td>
                 <td>@pub.AddressLine1</td>
                 <td>@pub.City</td>
+            </tr>*/
+            <tr>
+                <td><input type="text" class="form-control" placeholder="Enter Name" @bind="@pub.Name" /></td>
+                <td><input type="text" class="form-control" placeholder="Enter Address Line 1" @bind="@pub.AddressLine1" /></td>
+                <td><input type="text" class="form-control" placeholder="Enter City" @bind="@pub.City" /></td>
+        
+                <td><input type="button" @onclick="@(() => Update(pub))" value="Update"/></td>
+                <td><input type="button" @onclick="@(() => Delete(pub))" value="Delete" /></td>
+                
             </tr>
         }
         </tbody>
@@ -39,11 +50,29 @@ else
 }
 
 @code {
-    private List<Pub>? pubs;
+    private List<Pub>? _pubs;
+
+    private void Update(Pub pub)
+    {
+        //save data
+        PubService.UpdatePub(pub);
+    }
+
+    private void Add()
+    {
+    //save data
+        _pubs.Add(new Pub());
+    }
+
+    private void Delete(Pub pub)
+    {
+    //save data
+        _pubs.Remove(pub);
+        PubService.DeletePub(pub);
+    }
 
     protected override async Task OnInitializedAsync()
     {
-
-        pubs = await PubService.GetPubsAsync();
+        _pubs = await PubService.GetPubsAsync();
     }
 }
