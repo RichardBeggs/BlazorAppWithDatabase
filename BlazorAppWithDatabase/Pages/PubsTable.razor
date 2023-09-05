@@ -19,55 +19,65 @@ else
     <table class="table">
         <thead>
         <tr>
-            <th>Id</th>
             <th>Name</th>
             <th>Address Line 1</th>
             <th>City</th>
-                <th><input class="btn-primary" type="button" @onclick="@(Add)" value="Add" /></th>
+            <th></th>
+            <th><input class="btn btn-primary" type="button" @onclick="@(Add)" value="Add" /></th>
         </tr>
         </thead>
         <tbody>
         @foreach (var pub in _pubs)
         {
-            /*<tr>
-                <td>@pub.Id</td>
-                <td>@pub.Name</td>
-                <td>@pub.AddressLine1</td>
-                <td>@pub.City</td>
-            </tr>*/
             <tr>
-                <td><input type="text" class="form-control" placeholder="Enter Name" @bind="@pub.Name" /></td>
-                <td><input type="text" class="form-control" placeholder="Enter Address Line 1" @bind="@pub.AddressLine1" /></td>
-                <td><input type="text" class="form-control" placeholder="Enter City" @bind="@pub.City" /></td>
-        
-                <td><input type="button" @onclick="@(() => Update(pub))" value="Update"/></td>
-                <td><input type="button" @onclick="@(() => Delete(pub))" value="Delete" /></td>
-                
+                <td>
+                    <input type="text" class="form-control" placeholder="Enter Name" @bind="@pub.Name"/>
+                </td>
+                <td>
+                    <input type="text" class="form-control" placeholder="Enter Address Line 1" @bind="@pub.AddressLine1"/>
+                </td>
+                <td>
+                    <input type="text" class="form-control"  placeholder="Enter City"  @bind-value="@pub.City" @onblur="() => Update(pub)" />
+                </td>
+                <td>
+                    <input type="button" class="btn btn-success" @onclick="@(() => Update(pub))" value="Update"/>
+                </td>
+                <td>
+                    <input type="button" class="btn btn-danger" @onclick="@(() => Delete(pub))" value="Delete"/>
+                </td>
             </tr>
         }
         </tbody>
     </table>
+
+    @if (_saveConfirm)
+    {
+        <div style="@_saveConfirm" class="alert alert-success" role="alert">
+           Record Updated
+        </div>
+    }
 }
 
 @code {
     private List<Pub>? _pubs;
+    private bool _saveConfirm;
 
     private void Update(Pub pub)
     {
         //save data
         PubService.UpdatePub(pub);
+        _saveConfirm = true;
     }
 
     private void Add()
     {
-    //save data
+        //add on screen but don't save
         _pubs.Add(new Pub());
     }
 
     private void Delete(Pub pub)
     {
-    //save data
-        _pubs.Remove(pub);
+        //save data
         PubService.DeletePub(pub);
     }
 

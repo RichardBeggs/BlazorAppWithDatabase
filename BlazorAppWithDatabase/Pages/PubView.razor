@@ -1,0 +1,61 @@
+﻿@page "/pubView"
+@using BlazorAppWithDatabase.Data.Models
+@using BlazorAppWithDatabase.Data.Services
+@inject IPubService PubService
+@inject NavigationManager NavigationManager
+<!--Pass up to master page-->
+<PageTitle>Pubs View</PageTitle>
+
+<h1>Pubs View</h1>
+
+@if (_pubs == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Address Line 1</th>
+            <th>City</th>
+            <th><input class="btn btn-primary" type="button" @onclick="@(Add)" value="Add" /></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var pub in _pubs)
+        {
+            <tr>
+                <td>@pub.Name</td>
+                <td>@pub.AddressLine1</td>
+                <td>@pub.City</td>
+                <td>
+                    <input type="button" class="btn btn-success" @onclick="@(() => Update(pub))" value="Update"/>
+                </td>
+            </tr>
+ 
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Pub>? _pubs;
+
+    private void Update(Pub pub)
+    {
+        NavigationManager.NavigateTo("/PubForm/"+ pub.Id);
+    }
+
+    private void Add()
+    {
+        NavigationManager.NavigateTo("/PubForm/Add");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _pubs = await PubService.GetPubsAsync();
+    }
+}

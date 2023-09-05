@@ -10,6 +10,8 @@ namespace BlazorAppWithDatabase.Data.Services
 
         Task<List<Pub>> GetPubsAsync();
 
+        Task<Pub> GetPubAsync(int id);
+
         Task<List<Pub>> GetPubsAsync(string cityFilter);
     }
 }

@@ -1,0 +1,72 @@
+﻿<h3>PubsTableComponent</h3>
+@using BlazorAppWithDatabase.Data.Models
+@using BlazorAppWithDatabase.Data.Services
+@inject IPubService PubService
+<!--Pass up to master page-->
+<PageTitle>Pubs Table</PageTitle>
+
+<h1>Pubs Table</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+@if (_pubs == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Address Line 1</th>
+            <th>City</th>
+            <th><input class="btn-primary" type="button" @onclick="@(Add)" value="Add" /></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var pub in _pubs)
+        {
+            <tr>
+                <td><input type="text" class="form-control" placeholder="Enter Name" @bind="@pub.Name" /></td>
+                <td><input type="text" class="form-control" placeholder="Enter Address Line 1" @bind="@pub.AddressLine1" /></td>
+                <td><input type="text" class="form-control" placeholder="Enter City" @bind="@pub.City" /></td>
+        
+                <td><input type="button" @onclick="@(() => Update(pub))" value="Update"/></td>
+                <td><input type="button" @onclick="@(() => Delete(pub))" value="Delete" /></td>
+                
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+@code {
+
+    private List<Pub>? _pubs;
+
+    private void Update(Pub pub)
+    {
+    //save data
+        PubService.UpdatePub(pub);
+    }
+
+    private void Add()
+    {
+    //add on screen but don't save
+        _pubs.Add(new Pub());
+    }
+
+    private void Delete(Pub pub)
+    {
+    //save data
+        PubService.DeletePub(pub);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _pubs = await PubService.GetPubsAsync();
+    }
+
+}

@@ -1,0 +1,46 @@
+﻿@page "/pubForm/{PubId}"
+@using BlazorAppWithDatabase.Data.Models
+@using BlazorAppWithDatabase.Data.Services
+
+<!--Pass up to master page-->
+<PageTitle>Pubs Form</PageTitle>
+
+<h1>Pubs Form</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <EditForm Model="@Pub" OnSubmit="Submit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                
+                <div class="mb-3">
+                        <label for="txtPubName">Name</label>
+                        <InputText id="txtPubName" class="form-control" @bind-Value="Pub.Name"/>
+                        <ValidationMessage For="() => Pub.Name"/>
+                    </div>
+                <div class="mb-3">
+
+                        <label for="txtPubName">Address Line 1</label>
+                        <InputText id="txtPubAddressLine1" class="form-control" @bind-Value="Pub.AddressLine1"/>
+                        <ValidationMessage For="() => Pub.AddressLine1"/>
+                    </div>
+                <div class="mb-3">
+                        <label for="txtPubName">Address Line 2</label>
+                        <InputText id="txtPubAddressLine2" class="form-control" @bind-Value="Pub.AddressLine2"/>
+                        <ValidationMessage For="() => Pub.AddressLine2"/>
+                    </div>
+                <div class="mb-3">
+                        <label for="txtPubName">City</label>
+                        <InputText id="txtPubCity" class="form-control" @bind-Value="Pub.City"/>
+                        <ValidationMessage For="() => Pub.City"/>
+                    </div>
+                <div class="mb-3">
+                        <input type="submit" class="btn btn-primary" value="Save"/>
+                    </div>
+                
+            </EditForm>
+        </div>
+        <div class="col-md">
+        </div>
+    </div>
+</div>

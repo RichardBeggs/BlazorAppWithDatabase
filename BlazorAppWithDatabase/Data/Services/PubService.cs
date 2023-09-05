@@ -39,6 +39,12 @@ namespace BlazorAppWithDatabase.Data.Services
             return pubs;
         }
 
+        public Task<Pub?> GetPubAsync(int id)
+        {
+            var pub = _context.Pubs.FirstOrDefaultAsync(x=>x.Id == id);
+            return pub;
+        }
+
         public Task<List<Pub>> GetPubsAsync(string cityFilter)
         {
             var pubs = _context.Pubs.Where(x=>x.City==cityFilter).ToListAsync();
